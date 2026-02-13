@@ -1,15 +1,15 @@
 import time
 
-import adafruit_ds3231  # type: ignore
-import adafruit_ili9341  # type: ignore
+import adafruit_ds3231
+import adafruit_ili9341
 import board
 import busio
 import digitalio
 import displayio
-import fourwire  # type: ignore
-import rainbowio  # type: ignore
+import fourwire
+import rainbowio
 import terminalio
-from adafruit_display_text import label  # type: ignore
+from adafruit_display_text import label
 
 
 def main() -> None:

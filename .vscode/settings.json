@@ -2,18 +2,20 @@
     "python.defaultInterpreterPath": ".venv/bin/python",
     "python.analysis.extraPaths": [
         "${workspaceFolder}/src",
-        "${workspaceFolder}/lib"
+        "${workspaceFolder}/src/lib",
+        "${workspaceFolder}/typings"
     ],
+    "python.analysis.stubPath": "typings",
+    "python.analysis.typeCheckingMode": "basic",
     "editor.formatOnSave": true,
     "[python]": {
         "editor.defaultFormatter": "charliermarsh.ruff"
     },
     "python.languageServer": "Pylance",
     "python.analysis.diagnosticSeverityOverrides": {
-        "reportGeneralTypeIssues": "none",
         "reportMissingTypeStubs": "none",
-        "reportUnknownVariableType": "none",
-        "reportUnknownMemberType": "none",
+        "reportUnknownVariableType": "information",
+        "reportUnknownMemberType": "information",
         "reportMissingModuleSource": "none",
         "reportShadowedImports": "none"
     },
