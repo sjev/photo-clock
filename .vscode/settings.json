@@ -1,0 +1,21 @@
+{
+    "python.defaultInterpreterPath": ".venv/bin/python",
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}/src",
+        "${workspaceFolder}/lib"
+    ],
+    "editor.formatOnSave": true,
+    "[python]": {
+        "editor.defaultFormatter": "charliermarsh.ruff"
+    },
+    "python.languageServer": "Pylance",
+    "python.analysis.diagnosticSeverityOverrides": {
+        "reportGeneralTypeIssues": "none",
+        "reportMissingTypeStubs": "none",
+        "reportUnknownVariableType": "none",
+        "reportUnknownMemberType": "none",
+        "reportMissingModuleSource": "none",
+        "reportShadowedImports": "none"
+    },
+    "circuitpython.board.version": null
+}

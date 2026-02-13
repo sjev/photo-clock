@@ -1,12 +1,29 @@
+import os
+
 from invoke import task
 
 DEFAULT_BOARD = "raspberry_pi_pico"
 
 
+def get_mount_point() -> str:
+    """Find the mounted CIRCUITPY volume."""
+    for base in ("/media", "/run/media", "/Volumes"):
+        if not os.path.isdir(base):
+            continue
+        for root, dirs, _ in os.walk(base):
+            if "CIRCUITPY" in dirs:
+                return os.path.join(root, "CIRCUITPY")
+    raise FileNotFoundError("CIRCUITPY mount point not found")
+
+
 @task
 def deploy(c):
     """Sync src/ to the board root."""
-    c.run("mpremote connect auto cp -r src/. :/")
+    mount_point = get_mount_point()
+    c.run(
+        f"rsync -av --exclude '__pycache__' --exclude '*.pyc' --exclude '.gitkeep' src/ {mount_point}/"
+    )
+    c.run("sync")
 
 
 @task
