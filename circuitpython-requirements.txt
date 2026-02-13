@@ -5,3 +5,4 @@
 # Do NOT add these to pyproject.toml — they are not host dependencies.
 
 adafruit_display_text
+adafruit_ds3231
