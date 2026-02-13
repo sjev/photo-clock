@@ -1,0 +1,7 @@
+# CircuitPython board library dependencies
+# Install with: circup install -r circuitpython-requirements.txt
+#
+# These are installed directly onto the board's /lib/ directory by circup.
+# Do NOT add these to pyproject.toml — they are not host dependencies.
+
+adafruit_display_text
