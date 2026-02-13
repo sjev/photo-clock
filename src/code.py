@@ -7,6 +7,7 @@ import busio
 import digitalio
 import displayio
 import fourwire  # type: ignore
+import rainbowio  # type: ignore
 import terminalio
 from adafruit_display_text import label  # type: ignore
 
@@ -33,16 +34,19 @@ def main() -> None:
     group.append(displayio.TileGrid(bitmap, pixel_shader=palette))
 
     time_label = label.Label(
-        terminalio.FONT, text="00:00:00", color=0xFFFFFF, x=120, y=120
+        terminalio.FONT, text="00:00:00", color=0xFFFFFF, scale=4, x=80, y=120
     )
     group.append(time_label)
     display.root_group = group
 
+    color_pos = 0
     while True:
         led.value = not led.value
         t = rtc.datetime
         time_str = f"{t.tm_hour:02d}:{t.tm_min:02d}:{t.tm_sec:02d}"
         time_label.text = time_str
+        time_label.color = rainbowio.colorwheel(color_pos)
+        color_pos = (color_pos + 32) % 256
         print(time_str)
         time.sleep(1.0)
 
