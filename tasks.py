@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 from invoke import task
 
@@ -42,6 +43,26 @@ def libs(c):
 def reset(c):
     """Soft-reset the board."""
     c.run("mpremote connect auto reset")
+
+
+@task
+def set_rtc(c):
+    """Set DS3231 RTC to the current host time."""
+    now = datetime.now()
+    struct_args = (
+        f"{now.year}, {now.month}, {now.day}, "
+        f"{now.hour}, {now.minute}, {now.second}, "
+        f"{now.weekday()}, {now.timetuple().tm_yday}, -1"
+    )
+    code = (
+        "import time, board, busio, adafruit_ds3231; "
+        "i2c = busio.I2C(board.GP1, board.GP0); "
+        f"rtc = adafruit_ds3231.DS3231(i2c); "
+        f"rtc.datetime = time.struct_time(({struct_args})); "
+        "t = rtc.datetime; "
+        "print(f'{t.tm_hour:02d}:{t.tm_min:02d}:{t.tm_sec:02d}')"
+    )
+    c.run(f'mpremote exec "{code}"')
 
 
 @task(optional=["board"])
