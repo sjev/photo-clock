@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# src/lib/ is intentionally tracked — custom/vendored modules belong in git
