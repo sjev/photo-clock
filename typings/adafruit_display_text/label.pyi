@@ -1,6 +1,5 @@
 import displayio
 
-
 class Label(displayio.Group):
     text: str
     color: int
