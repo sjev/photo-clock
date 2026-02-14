@@ -43,6 +43,10 @@ circuitpython-requirements.txt  # board libs managed by circup
 pyproject.toml                  # host dev tools only
 ```
 
+## Design
+
+See [docs/](docs/) for hardware details and wiring diagrams.
+
 ## Adding board libraries
 
 Add the library name to `circuitpython-requirements.txt`, then run `inv libs`.

@@ -1,0 +1,107 @@
+connectors:
+  RP2040:
+    type: Raspberry Pi Pico
+    pinlabels:
+      - GP0/SDA (pin 1)
+      - GP1/SCL (pin 2)
+      - GP4/CS0 (pin 6)
+      - GP5/DC (pin 7)
+      - GP6/SCK (pin 9)
+      - GP7/MOSI (pin 10)
+      - GP8/RST (pin 11)
+      - GP9/BLK (pin 12)
+      - GP10/CS1 (pin 14)
+      - GP11/CS2 (pin 15)
+      - GP12/CS3 (pin 16)
+      - 3V3 (pin 36)
+      - GND (pin 38)
+
+  DS3231:
+    type: RTC Module
+    pinlabels: [VCC, GND, SDA, SCL]
+    notes: |
+      I2C address 0x68
+      Onboard 4.7kΩ pull-ups
+      SQW/32K unused
+
+  D0:
+    type: ILI9341 2.2" TFT
+    subtype: "240×320"
+    pinlabels: [SCK, MOSI, DC, RST, LED, VCC, GND, CS]
+    notes: "Display 0 — ones minute"
+
+  D1:
+    type: ILI9341 2.2" TFT
+    subtype: "240×320"
+    pinlabels: [SCK, MOSI, DC, RST, LED, VCC, GND, CS]
+    notes: "Display 1 — tens minute"
+
+  D2:
+    type: ILI9341 2.2" TFT
+    subtype: "240×320"
+    pinlabels: [SCK, MOSI, DC, RST, LED, VCC, GND, CS]
+    notes: "Display 2 — ones hour"
+
+  D3:
+    type: ILI9341 2.2" TFT
+    subtype: "240×320"
+    pinlabels: [SCK, MOSI, DC, RST, LED, VCC, GND, CS]
+    notes: "Display 3 — tens hour"
+
+cables:
+  I2C:
+    category: bundle
+    colors: [RD, BK, GN, YE]
+    wirelabels: [3V3, GND, SDA, SCL]
+
+  SPI:
+    category: bundle
+    colors: [YE, BU, GN, WH, OG, RD, BK]
+    wirelabels: [SCK, MOSI, DC, RST, BLK, 3V3, GND]
+    notes: Shared SPI bus + control lines
+
+  CS:
+    category: bundle
+    colors: [VT, GY, PK, BN]
+    wirelabels: [CS0, CS1, CS2, CS3]
+    notes: Individual chip-select lines
+
+connections:
+  # I2C to RTC
+  -
+    - RP2040: [12, 13, 1, 2]
+    - I2C: [1, 2, 3, 4]
+    - DS3231: [1, 2, 3, 4]
+
+  # Shared SPI bus to all displays
+  -
+    - RP2040: [5, 6, 4, 7, 8, 12, 13]
+    - SPI: [1, 2, 3, 4, 5, 6, 7]
+    - D0: [1, 2, 3, 4, 5, 6, 7]
+  -
+    - D1: [1, 2, 3, 4, 5, 6, 7]
+    - SPI: [1, 2, 3, 4, 5, 6, 7]
+  -
+    - D2: [1, 2, 3, 4, 5, 6, 7]
+    - SPI: [1, 2, 3, 4, 5, 6, 7]
+  -
+    - D3: [1, 2, 3, 4, 5, 6, 7]
+    - SPI: [1, 2, 3, 4, 5, 6, 7]
+
+  # Individual chip-select lines
+  -
+    - RP2040: [3]
+    - CS: [1]
+    - D0: [8]
+  -
+    - RP2040: [9]
+    - CS: [2]
+    - D1: [8]
+  -
+    - RP2040: [10]
+    - CS: [3]
+    - D2: [8]
+  -
+    - RP2040: [11]
+    - CS: [4]
+    - D3: [8]

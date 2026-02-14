@@ -12,6 +12,7 @@ dev-dependencies = [
     "circuitpython-stubs",
     "invoke",
     "mypy>=1.19.1",
+    "wireviz>=0.4.1",
 ]
 
 [tool.ruff]

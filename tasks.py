@@ -65,6 +65,16 @@ def set_rtc(c):
     c.run(f'mpremote exec "{code}"')
 
 
+@task
+def wiring(c):
+    """Generate wiring diagrams from YAML definitions."""
+    import glob
+
+    os.makedirs("docs/img", exist_ok=True)
+    for yml in sorted(glob.glob("docs/*.yml")):
+        c.run(f"wireviz -o docs/img {yml}")
+
+
 @task(optional=["board"])
 def typecheck(c, board=DEFAULT_BOARD):
     """Run mypy against src/ using board-specific CircuitPython stubs."""

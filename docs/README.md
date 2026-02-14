@@ -74,3 +74,9 @@ All displays share a single SPI0 bus plus DC, RST, and backlight lines. Only the
 * MISO pin on each display module left unconnected.
 
 * Board library: `adafruit_ili9341`.
+
+## Wiring diagram
+
+![Wiring diagram](img/wiring.png)
+
+Generated with [WireViz](https://github.com/wireviz/WireViz) from [`wiring.yml`](wiring.yml). Regenerate with `inv wiring`.
