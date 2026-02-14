@@ -1,3 +1,5 @@
+import os
+import random
 import time
 
 import adafruit_ds3231
@@ -7,9 +9,15 @@ import busio
 import digitalio
 import displayio
 import fourwire
-import rainbowio
-import terminalio
-from adafruit_display_text import label
+import sdcardio
+import storage
+
+
+def random_image_path(digit: int) -> str:
+    """Return path to a random BMP for the given digit."""
+    folder = f"/sd/{digit}"
+    files = os.listdir(folder)
+    return f"{folder}/{random.choice(files)}"
 
 
 def main() -> None:
@@ -21,34 +29,36 @@ def main() -> None:
     i2c = busio.I2C(board.GP1, board.GP0)
     rtc = adafruit_ds3231.DS3231(i2c)
 
+    # SD card
+    sd_spi = busio.SPI(clock=board.GP10, MOSI=board.GP11, MISO=board.GP12)
+    sd = sdcardio.SDCard(sd_spi, board.GP13)
+    vfs = storage.VfsFat(sd)
+    storage.mount(vfs, "/sd")
+
     # Display
     displayio.release_displays()
-    spi = busio.SPI(clock=board.GP6, MOSI=board.GP7)
-    display_bus = fourwire.FourWire(spi, command=board.GP5, chip_select=board.GP4)
+    disp_spi = busio.SPI(clock=board.GP6, MOSI=board.GP7)
+    display_bus = fourwire.FourWire(disp_spi, command=board.GP5, chip_select=board.GP4)
     display = adafruit_ili9341.ILI9341(display_bus, width=320, height=240)
 
     group = displayio.Group()
-    bitmap = displayio.Bitmap(320, 240, 1)
-    palette = displayio.Palette(1)
-    palette[0] = 0x000000
-    group.append(displayio.TileGrid(bitmap, pixel_shader=palette))
-
-    time_label = label.Label(
-        terminalio.FONT, text="00:00:00", color=0xFFFFFF, scale=4, x=80, y=120
-    )
-    group.append(time_label)
     display.root_group = group
 
-    color_pos = 0
+    prev_sec = -1
     while True:
         led.value = not led.value
         t = rtc.datetime
-        time_str = f"{t.tm_hour:02d}:{t.tm_min:02d}:{t.tm_sec:02d}"
-        time_label.text = time_str
-        time_label.color = rainbowio.colorwheel(color_pos)
-        color_pos = (color_pos + 32) % 256
-        print(time_str)
-        time.sleep(1.0)
+        sec = t.tm_sec
+        if sec != prev_sec:
+            prev_sec = sec
+            digit = sec % 10
+            path = random_image_path(digit)
+            bitmap = displayio.OnDiskBitmap(path)
+            while len(group):
+                group.pop()
+            group.append(displayio.TileGrid(bitmap, pixel_shader=bitmap.pixel_shader))
+            print(f"{t.tm_hour:02d}:{t.tm_min:02d}:{t.tm_sec:02d} -> {path}")
+        time.sleep(0.1)
 
 
 main()
