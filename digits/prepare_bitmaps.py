@@ -36,11 +36,12 @@ def fetch_cat_image(digit: int) -> bytes:
 
 
 def convert_to_bmp(data: bytes) -> Image.Image:
-    """Convert raw image bytes to a correctly sized RGB image."""
+    """Convert raw image bytes to a landscape BMP for the ILI9341 display."""
     img = Image.open(io.BytesIO(data))
     img = img.convert("RGB")
     if img.size != (DISPLAY_WIDTH, DISPLAY_HEIGHT):
         img = img.resize((DISPLAY_WIDTH, DISPLAY_HEIGHT))
+    img = img.rotate(-90, expand=True)
     return img
 
 
