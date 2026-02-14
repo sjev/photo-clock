@@ -1,15 +1,11 @@
 Id	Description	Qty	Unit	Designators
-1	Connector, ILI9341 2.2" TFT, 240×320, 8 pins	4		D0, D1, D2, D3
+1	Connector, ILI9341 2.2" TFT + SD, 240×320, 10 pins	1		D0
 2	Connector, RTC Module, 4 pins	1		DS3231
-3	Connector, Raspberry Pi Pico, 13 pins	1		RP2040
-4	Wire, BK	0	m	I2C, SPI
-5	Wire, BN	0	m	CS
-6	Wire, BU	0	m	SPI
-7	Wire, GN	0	m	I2C, SPI
-8	Wire, GY	0	m	CS
-9	Wire, OG	0	m	SPI
-10	Wire, PK	0	m	CS
-11	Wire, RD	0	m	I2C, SPI
-12	Wire, VT	0	m	CS
-13	Wire, WH	0	m	SPI
-14	Wire, YE	0	m	I2C, SPI
+3	Connector, Raspberry Pi Pico, 12 pins	1		RP2040
+4	Wire, BK	0	m	I2C, SPI0
+5	Wire, BU	0	m	SPI0, SPI1
+6	Wire, GN	0	m	I2C, SPI0
+7	Wire, RD	0	m	I2C, SPI0
+8	Wire, VT	0	m	SPI0, SPI1
+9	Wire, WH	0	m	SPI1
+10	Wire, YE	0	m	I2C, SPI0, SPI1
