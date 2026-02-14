@@ -20,6 +20,15 @@ def random_image_path(digit: int) -> str:
     return f"{folder}/{random.choice(files)}"
 
 
+def show_digit(group: displayio.Group, digit: int) -> None:
+    """Load a random image for digit and push it to the display."""
+    path = random_image_path(digit)
+    bitmap = displayio.OnDiskBitmap(path)
+    while len(group):
+        group.pop()
+    group.append(displayio.TileGrid(bitmap, pixel_shader=bitmap.pixel_shader))
+
+
 def main() -> None:
     """Main entry point."""
     led = digitalio.DigitalInOut(board.LED)
@@ -38,7 +47,9 @@ def main() -> None:
     # Display
     displayio.release_displays()
     disp_spi = busio.SPI(clock=board.GP6, MOSI=board.GP7)
-    display_bus = fourwire.FourWire(disp_spi, command=board.GP5, chip_select=board.GP4)
+    display_bus = fourwire.FourWire(
+        disp_spi, command=board.GP5, chip_select=board.GP4, baudrate=62_500_000
+    )
     display = adafruit_ili9341.ILI9341(display_bus, width=320, height=240)
 
     group = displayio.Group()
@@ -52,12 +63,7 @@ def main() -> None:
         if sec != prev_sec:
             prev_sec = sec
             digit = sec % 10
-            path = random_image_path(digit)
-            bitmap = displayio.OnDiskBitmap(path)
-            while len(group):
-                group.pop()
-            group.append(displayio.TileGrid(bitmap, pixel_shader=bitmap.pixel_shader))
-            print(f"{t.tm_hour:02d}:{t.tm_min:02d}:{t.tm_sec:02d} -> {path}")
+            show_digit(group, digit)
         time.sleep(0.1)
 
 
