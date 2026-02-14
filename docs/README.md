@@ -37,6 +37,8 @@ SQW and 32K pins are unused. SQW could later drive an alarm interrupt if needed.
 
 4x ILI9341 2.2" TFT (240×320) connected via a shared SPI bus with individual chip-select lines.
 
+source: [tinytronics](https://www.tinytronics.nl/en/displays/tft/2.2-inch-tft-display-240*320-pixels-ili9341)
+
 ### Single display (minimum wiring)
 
 4 GPIO pins. RST and BLK hardwired. One MOSI↔SCK crossover — unavoidable since SPI0 always has SCK on a lower GPIO than TX.
