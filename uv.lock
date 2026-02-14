@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 2
 requires-python = ">=3.11"
 
 [[package]]
@@ -322,6 +322,8 @@ dev = [
     { name = "invoke" },
     { name = "mpremote" },
     { name = "mypy" },
+    { name = "pillow" },
+    { name = "requests" },
     { name = "ruff" },
     { name = "wireviz" },
 ]
@@ -335,6 +337,8 @@ dev = [
     { name = "invoke" },
     { name = "mpremote" },
     { name = "mypy", specifier = ">=1.19.1" },
+    { name = "pillow" },
+    { name = "requests" },
     { name = "ruff" },
     { name = "wireviz", specifier = ">=0.4.1" },
 ]
