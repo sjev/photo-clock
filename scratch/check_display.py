@@ -63,7 +63,7 @@ led.direction = digitalio.Direction.OUTPUT
 
 print("Writing displays...")
 
-for _ in range(5):
+while True:
     led.value = not led.value
     for i, cs in enumerate(cs_pins):
         send(spi, make_group(f"Display {i}", COLORS[i]), cs)
