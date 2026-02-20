@@ -4,6 +4,15 @@
 This project is about creating a 4-digit clock.
 Each digit is a separate display displaying images.
 
+
+## Main loop
+
+1. read clock HH:MM
+2. get 4 corresponding bitmap numbers (pick randomly)
+3. update displays
+4. wait REFRESH_DELAY seconds
+
+
 ## Hardware
 
 * uC — RP2040 running CircuitPython >10.0
