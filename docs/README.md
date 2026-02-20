@@ -53,8 +53,3 @@ All display F_CS and MISO left unconnected.
 
 4 displays share SPI0 bus (SCK, MOSI) and DC line. Each display has a unique CS pin. Only one display is addressed at a time by pulling its CS low.
 
-## Wiring diagram
-
-![Wiring diagram](img/wiring.png)
-
-Generated with [WireViz](https://github.com/wireviz/WireViz) from [`wiring.yml`](wiring.yml). Regenerate with `inv wiring`.
