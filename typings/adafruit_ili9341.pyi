@@ -1,5 +1,7 @@
+import displayio
+
 class ILI9341:
-    root_group: object | None
+    root_group: displayio.Group | None
 
     def __init__(
         self,
@@ -8,4 +10,6 @@ class ILI9341:
         width: int = ...,
         height: int = ...,
         rotation: int = ...,
+        auto_refresh: bool = ...,
     ) -> None: ...
+    def refresh(self) -> None: ...

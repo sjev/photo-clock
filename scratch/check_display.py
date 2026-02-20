@@ -1,32 +1,43 @@
-"""Check ILI9341 display — fills screen red, then shows text."""
+"""Check all 4 ILI9341 displays — shows 'Display N' on each."""
 
 import board
 import busio
 import displayio
-import fourwire  # type: ignore
+import fourwire
 import terminalio
 
-import adafruit_ili9341  # type: ignore
-from adafruit_display_text import label  # type: ignore
+import adafruit_ili9341
+from adafruit_display_text import label
+
+CS_PINS = [board.GP4, board.GP21, board.GP22, board.GP26]
+COLORS = [0xFF0000, 0x00FF00, 0x0000FF, 0xFFFF00]
 
 displayio.release_displays()
-
 spi = busio.SPI(clock=board.GP6, MOSI=board.GP7)
-display_bus = fourwire.FourWire(spi, command=board.GP5, chip_select=board.GP4)
-display = adafruit_ili9341.ILI9341(display_bus, width=320, height=240)
 
-group = displayio.Group()
+displays = []
+for pin in CS_PINS:
+    bus = fourwire.FourWire(spi, command=board.GP5, chip_select=pin, baudrate=24_000_000)
+    display = adafruit_ili9341.ILI9341(bus, width=320, height=240, auto_refresh=False)
+    displays.append(display)
 
-# Red background
-bitmap = displayio.Bitmap(320, 240, 1)
-palette = displayio.Palette(1)
-palette[0] = 0xFF0000
-group.append(displayio.TileGrid(bitmap, pixel_shader=palette))
+print("Init done, writing to displays...")
 
-# White text
-text = label.Label(terminalio.FONT, text="Hello Clock!", color=0xFFFFFF, x=80, y=120)
-group.append(text)
 
-display.root_group = group
+def make_group(text: str, color: int) -> displayio.Group:
+    """Create a group with colored background and centered text."""
+    group = displayio.Group()
+    bg = displayio.Bitmap(320, 240, 1)
+    palette = displayio.Palette(1)
+    palette[0] = color
+    group.append(displayio.TileGrid(bg, pixel_shader=palette))
+    group.append(label.Label(terminalio.FONT, text=text, color=0xFFFFFF, x=100, y=120, scale=3))
+    return group
 
-print("Display check OK — red screen with white text")
+
+for i, disp in enumerate(displays):
+    print(f"Writing Display {i}")
+    disp.root_group = make_group(f"Display {i}", COLORS[i])
+    disp.refresh()
+
+print("All displays written")
