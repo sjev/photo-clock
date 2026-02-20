@@ -27,9 +27,19 @@ def random_image_path(digit: int) -> str:
     return f"{folder}/{random.choice(files)}"
 
 
+def init_display(spi: busio.SPI, cs: digitalio.DigitalInOut) -> None:
+    """Send ILI9341 init sequence to one display (CS low during init)."""
+    cs.value = False
+    displayio.release_displays()
+    bus = fourwire.FourWire(
+        spi, command=board.GP5, chip_select=STUB_CS_PIN, baudrate=12_000_000
+    )
+    adafruit_ili9341.ILI9341(bus, width=320, height=240, auto_refresh=False)
+    cs.value = True
+
+
 def send_image(spi: busio.SPI, path: str, cs: digitalio.DigitalInOut) -> None:
     """Load a BMP from SD and push it to the display selected by cs."""
-    cs.value = False
     displayio.release_displays()
     bus = fourwire.FourWire(
         spi, command=board.GP5, chip_select=STUB_CS_PIN, baudrate=12_000_000
@@ -39,6 +49,7 @@ def send_image(spi: busio.SPI, path: str, cs: digitalio.DigitalInOut) -> None:
     group = displayio.Group()
     group.append(displayio.TileGrid(bitmap, pixel_shader=bitmap.pixel_shader))
     display.root_group = group
+    cs.value = False
     display.refresh()
     cs.value = True
     gc.collect()
@@ -82,6 +93,10 @@ time.sleep(0.01)
 rst.value = True
 time.sleep(0.12)
 
+# Init each display so it receives the ILI9341 configuration once
+for cs in cs_pins:
+    init_display(spi, cs)
+
 # --- Main loop ---
 
 print("Photo clock started")
@@ -96,4 +111,4 @@ while True:
         send_image(spi, random_image_path(digit), cs_pins[i])
         print(f"Display {i}: digit {digit}")
     print(f"{t.tm_hour:02d}:{t.tm_min:02d}")
-    time.sleep(10)
+    time.sleep(15)
