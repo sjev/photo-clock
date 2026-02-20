@@ -33,6 +33,7 @@ ruff check --fix && ruff format  # lint and format
 
 - **MCU:** RP2040 running CircuitPython >10.0
 - **RTC:** DS3231 at I2C address `0x68` on GP0 (SDA) / GP1 (SCL)
+- **Display RST:** GP2 (shared by all 4 displays, active-low)
 - I2C init: `busio.I2C(board.GP1, board.GP0)`
 
 ## Code Conventions

@@ -4,7 +4,7 @@ class FourWire:
         spi,
         *,
         command,
-        chip_select,
+        chip_select=None,
         reset=None,
         baudrate: int = ...,
         polarity: int = ...,
