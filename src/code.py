@@ -91,10 +91,9 @@ while True:
     led.value = not led.value
     t = rtc.datetime
     digits = (t.tm_hour // 10, t.tm_hour % 10, t.tm_min // 10, t.tm_min % 10)
-    if digits != prev_digits:
-        for i, digit in enumerate(digits):
-            send_image(spi, random_image_path(digit), cs_pins[i])
-            print(f"Display {i}: digit {digit}")
-        prev_digits = digits
-        print(f"{t.tm_hour:02d}:{t.tm_min:02d}")
-    time.sleep(1)
+
+    for i, digit in enumerate(digits):
+        send_image(spi, random_image_path(digit), cs_pins[i])
+        print(f"Display {i}: digit {digit}")
+    print(f"{t.tm_hour:02d}:{t.tm_min:02d}")
+    time.sleep(10)
