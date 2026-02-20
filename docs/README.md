@@ -17,6 +17,9 @@ Source: [tinytronics](https://www.tinytronics.nl/en/displays/tft/2.2-inch-tft-di
 
 [PINOUT](https://www.raspberrypi.com/documentation/microcontrollers/pico-series.html#pico-1-family)
 
+![rpi_non_wireless](https://www.raspberrypi.com/documentation/microcontrollers/images/pico-pinout.svg)
+
+
 | RP2040 Pin | Bus | Device Pin | Function |
 |------------|-----|------------|----------|
 | GP0 (pin 1) | I2C0 SDA | DS3231 SDA | I2C data |
