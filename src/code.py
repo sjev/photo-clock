@@ -112,7 +112,6 @@ print("Photo clock started")
 assert display is not None
 prev_digits: tuple[int, ...] | None = None
 while True:
-    led.value = not led.value
     t = rtc.datetime
     digits = (t.tm_hour // 10, t.tm_hour % 10, t.tm_min // 10, t.tm_min % 10)
 
@@ -125,6 +124,7 @@ while True:
     for i, group in updates:
         refresh_display(display, group, cs_pins[i])
         print(f"Display {i}: digit {digits[i]}")
+        led.value = not led.value
 
     prev_digits = digits
     print(f"{t.tm_hour:02d}:{t.tm_min:02d}")
