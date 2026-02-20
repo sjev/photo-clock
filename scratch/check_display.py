@@ -1,6 +1,7 @@
 """Check all 4 ILI9341 displays — shows 'Display N' on each."""
 
 import gc
+import time
 
 import adafruit_ili9341
 import board
@@ -15,6 +16,7 @@ from adafruit_display_text import label
 # All 4 display CS pins (including GP4 for Display 0) are controlled manually,
 # so FourWire's own CS toggle never accidentally selects a display.
 STUB_CS_PIN = board.GP3
+RST_PIN = board.GP2
 CS_PINS = [board.GP4, board.GP21, board.GP22, board.GP27]
 COLORS = [0xFF0000, 0x00FF00, 0x0000FF, 0xFFFF00]
 
@@ -60,6 +62,16 @@ spi = busio.SPI(clock=board.GP6, MOSI=board.GP7)
 
 led = digitalio.DigitalInOut(board.LED)
 led.direction = digitalio.Direction.OUTPUT
+
+rst = digitalio.DigitalInOut(RST_PIN)
+rst.direction = digitalio.Direction.OUTPUT
+
+print("Resetting all displays...")
+rst.value = False
+time.sleep(0.01)
+rst.value = True
+time.sleep(0.12)
+print("All displays reset")
 
 print("Writing displays...")
 

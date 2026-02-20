@@ -24,6 +24,7 @@ Source: [tinytronics](https://www.tinytronics.nl/en/displays/tft/2.2-inch-tft-di
 |------------|-----|------------|----------|
 | GP0 (pin 1) | I2C0 SDA | DS3231 SDA | I2C data |
 | GP1 (pin 2) | I2C0 SCL | DS3231 SCL | I2C clock |
+| GP2 (pin 4) | — | Display RST | Hardware reset (shared) |
 | GP4 (pin 6) | — | Display 0 CS | Chip select (digit 0) |
 | GP5 (pin 7) | — | Display DC | Data/Command select (shared) |
 | GP6 (pin 9) | SPI0 SCK | Display SCK | SPI clock (shared) |
@@ -35,7 +36,7 @@ Source: [tinytronics](https://www.tinytronics.nl/en/displays/tft/2.2-inch-tft-di
 | GP11 (pin 15) | SPI1 TX | SD_MOSI | SD card data out |
 | GP12 (pin 16) | SPI1 RX | SD_MISO | SD card data in |
 | GP13 (pin 17) | — | SD_CS | SD card chip select |
-| 3V3 (pin 36) | — | VCC, RST, LED | Power + hardwired lines |
+| 3V3 (pin 36) | — | VCC, LED | Power + backlight |
 | GND (pin 38) | — | GND | Ground |
 
 All display F_CS and MISO left unconnected.
@@ -46,7 +47,8 @@ All display F_CS and MISO left unconnected.
 * **SPI0 (displays):** `busio.SPI(clock=board.GP6, MOSI=board.GP7)` — write-only, no MISO. Shared by all 4 displays. MOSI↔SCK crossover unavoidable (SPI0 SCK is always on a lower GPIO than TX).
 * **SPI1 (SD card):** `busio.SPI(clock=board.GP10, MOSI=board.GP11, MISO=board.GP12)`
 * **Display CS pins:** GP4 (digit 0), GP21 (digit 1), GP22 (digit 2), GP27 (digit 3). DC (GP5) shared by all displays.
-* **RST / LED:** Tied to 3V3 (no software reset, backlight always on).
+* **RST:** GP2 shared by all 4 displays. Active-low hardware reset.
+* **LED:** Tied to 3V3 (backlight always on).
 * **Board libraries:** `adafruit_ds3231`, `adafruit_ili9341`.
 
 ### 4-display setup

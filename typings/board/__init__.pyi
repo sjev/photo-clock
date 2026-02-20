@@ -5,6 +5,7 @@ from microcontroller import Pin
 LED: Final[Pin]
 GP0: Final[Pin]
 GP1: Final[Pin]
+GP2: Final[Pin]
 GP3: Final[Pin]
 GP4: Final[Pin]
 GP5: Final[Pin]
