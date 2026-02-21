@@ -21,10 +21,11 @@ uv sync
 ## Workflow
 
 ```bash
-inv deploy   # sync src/ to board  (mounted CIRCUITPY via rsync)
-inv libs     # install board libs  (circup)
-inv repl     # open board REPL
-inv reset    # soft-reset board
+inv deploy     # sync src/ to board  (mounted CIRCUITPY via rsync)
+inv libs       # install board libs  (circup)
+inv repl       # open board REPL
+inv reset      # soft-reset board
+inv set_rtc    # sync DS3231 RTC to host time
 inv typecheck  # run mypy with board-specific stubs
 ```
 

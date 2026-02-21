@@ -4,6 +4,5 @@
 # These are installed directly onto the board's /lib/ directory by circup.
 # Do NOT add these to pyproject.toml — they are not host dependencies.
 
-adafruit_display_text
 adafruit_ds3231
 adafruit_ili9341
