@@ -20,9 +20,19 @@ Each digit is a separate display displaying images.
 * Display — 2.2" TFT ILI9341 (240×320, SPI) with onboard SD card slot
 * SD card — on display module, connected via SPI1
 
+
 Source: [tinytronics](https://www.tinytronics.nl/en/displays/tft/2.2-inch-tft-display-240*320-pixels-ili9341)
 
+## Power
+
+To power the backlights an external usb dc-dc converter is used (USB-C input)
+3.3V output is connected via **white jumper** to VSYS (pin 39) of Rpi
+
+IMPORTANT: when using USB-C power, DISCONNECT white jumper.
+
 ## Wiring
+
+
 
 [PINOUT](https://www.raspberrypi.com/documentation/microcontrollers/pico-series.html#pico-1-family)
 
