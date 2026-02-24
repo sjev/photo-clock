@@ -113,7 +113,7 @@ assert display is not None
 prev_digits: tuple[int, ...] | None = None
 while True:
     t = rtc.datetime
-    digits = (t.tm_hour // 10, t.tm_hour % 10, t.tm_min // 10, t.tm_min % 10)
+    digits = (t.tm_min % 10, t.tm_min // 10, t.tm_hour % 10, t.tm_hour // 10)
 
     updates: list[tuple[int, displayio.Group]] = []
     for i, digit in enumerate(digits):
